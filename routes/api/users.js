@@ -203,7 +203,7 @@ router.post('/delete', authenticatedOnly, (req, res) => {
   }
 });
 
-router.get("/user-count", (req, res) => {
+router.get("/user-count", authenticatedOnly, (req, res) => {
   today = new Date();
   User.aggregate([
     {$project: {year: { $year: "$date" }, month: {$month: "$date"}, day: { $dayOfMonth: "$date" }}},
