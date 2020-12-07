@@ -48,7 +48,7 @@ class Chart extends Component {
   }
 
   getUserCountData() {
-    axios.get('/api/users/user-count').then(response => {
+    axios.get('/api/users/user-count', {headers: {'x-access-token': localStorage.jwtToken}}).then(response => {
       const newChartData = this.state.chartData;
       response.data.forEach(responseData => {
         newChartData.datasets[0].data[responseData._id - 1] = responseData.count;
