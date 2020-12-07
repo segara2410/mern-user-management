@@ -203,4 +203,16 @@ router.post('/delete', authenticatedOnly, (req, res) => {
   }
 });
 
+router.get("/user-count", (req, res) => {
+  today = new Date();
+  User.aggregate([
+    {$project: {year: { $year: "$date" }, month: {$month: "$date"}, day: { $dayOfMonth: "$date" }}},
+    {$match: {year: today.getFullYear(), month: today.getMonth() + 1}},
+    {$group: { _id: "$day", count: { $sum: 1 } }},
+    {$sort: {"date": 1}}
+  ]).then(result => {
+    res.json(result);
+  });
+});
+
 module.exports = router;
